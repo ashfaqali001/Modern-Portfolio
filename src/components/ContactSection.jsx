@@ -14,19 +14,46 @@ export const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
       });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Message sent! ✅",
+          description: "Thank you for your message. I'll get back to you soon.",
+        });
+        form.reset(); // Clear the form fields on success
+      } else {
+        toast({
+          title: "Something went wrong! 😔",
+          description: data.message || "An error occurred while sending your message.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast({
+        title: "Network error",
+        description: "Please check your internet connection and try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl">
@@ -42,34 +69,33 @@ export const ContactSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="space-y-8">
             <h3 className="text-2xl font-semibold mb-6">
-              {" "}
               Contact Information
             </h3>
 
             <div className="space-y-6 justify-center">
               <div className="flex items-start space-x-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <Mail className="h-6 w-6 text-primary" />{" "}
+                  <Mail className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="font-medium"> Email</h4>
                   <a
-                    href="mailto:hello@gmail.com"
+                    href="mailto:alishfaq877@gmail.com"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
                     alishfaq877@gmail.com
                   </a>
                 </div>
               </div>
-                     <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-4">
                 <div className="p-3 rounded-full bg-primary/10">
-                  <MapPin className="h-6 w-6 text-primary" />{" "}
+                  <MapPin className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h4 className="font-medium"> Location</h4>
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    Delhi , India
-                  </a>
+                  <span className="text-muted-foreground">
+                    Delhi, India
+                  </span>
                 </div>
               </div>
             </div>
@@ -77,32 +103,29 @@ export const ContactSection = () => {
             <div className="pt-8">
               <h4 className="font-medium mb-4"> Connect With Me</h4>
               <div className="flex space-x-4 justify-center">
-                <a href="https://www.linkedin.com/in/alishfaq/" target="_blank">
+                <a href="https://www.linkedin.com/in/alishfaq/" target="_blank" rel="noopener noreferrer">
                   <Linkedin />
                 </a>
-                <a href="https://x.com/alishfaq007?t=PWFJqm3dSCs23UYZhB7Zvg&s=09" target="_blank">
-                  <Twitter/>
+                <a href="https://x.com/alishfaq007?t=PWFJqm3dSCs23UYZhB7Zvg&s=09" target="_blank" rel="noopener noreferrer">
+                  <Twitter />
                 </a>
-                <a href="https://www.instagram.com/alishfaq001?igsh=MnNwaG9ndDZlbTV4" target="_blank">
+                <a href="https://www.instagram.com/alishfaq001?igsh=MnNwaG9ndDZlbTV4" target="_blank" rel="noopener noreferrer">
                   <Instagram />
                 </a>
               </div>
             </div>
           </div>
 
-          <div
-            className="bg-card p-8 rounded-lg shadow-xs"
-            onSubmit={handleSubmit}
-          >
+          <div className="bg-card p-8 rounded-lg shadow-xs">
             <h3 className="text-2xl font-semibold mb-6"> Send a Message</h3>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                <input type="hidden" name="access_key" value="375e4914-4357-472f-9f32-fd61ba2d0628" />
                 <label
                   htmlFor="name"
                   className="block text-sm font-medium mb-2"
                 >
-                  {" "}
                   Your Name
                 </label>
                 <input
@@ -110,7 +133,7 @@ export const ContactSection = () => {
                   id="name"
                   name="name"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Name"
                 />
               </div>
@@ -120,7 +143,6 @@ export const ContactSection = () => {
                   htmlFor="email"
                   className="block text-sm font-medium mb-2"
                 >
-                  {" "}
                   Your Email
                 </label>
                 <input
@@ -128,7 +150,7 @@ export const ContactSection = () => {
                   id="email"
                   name="email"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Email"
                 />
               </div>
@@ -138,14 +160,13 @@ export const ContactSection = () => {
                   htmlFor="message"
                   className="block text-sm font-medium mb-2"
                 >
-                  {" "}
                   Your Message
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary resize-none"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   placeholder="Hello, I'd like to talk about..."
                 />
               </div>
