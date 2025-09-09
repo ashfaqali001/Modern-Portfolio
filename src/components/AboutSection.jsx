@@ -12,14 +12,15 @@ export const AboutSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h3 className="text-2xl font-semibold">
-             Passionate Full-Stack Developer & Problem Solver
+              Passionate Full-Stack Developer & Problem Solver
             </h3>
 
             <p className="text-muted-foreground">
-           I’m an aspiring full-stack developer with hands-on experience in building real-time chat and e-commerce applications. I specialize in creating secure, responsive, and user-friendly web apps using React, Node.js, Express, and MongoDB.</p>
+              I’m an aspiring full-stack developer with hands-on experience in building real-time chat and e-commerce applications. I specialize in creating secure, responsive, and user-friendly web apps using React, Node.js, Express, and MongoDB.
+            </p>
 
             <p className="text-muted-foreground">
-           With a solid foundation in Data Structures & Algorithms (DSA), I focus on writing efficient, optimized code while solving complex problems. Always eager to learn, I love exploring new technologies to build scalable digital solutions.
+              With a solid foundation in Data Structures & Algorithms (DSA), I focus on writing efficient, optimized code while solving complex problems. Always eager to learn, I love exploring new technologies to build scalable digital solutions.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
@@ -29,8 +30,9 @@ export const AboutSection = () => {
               </a>
 
               <a
-                href=""
-                className="px-6 py-2 rounded-full border border-primary text-primary hover:bg-primary/10 transition-colors duration-300"
+                href="/Resume_ATS.pdf"
+                download="my-cv.pdf"
+                className="cosmic-button"
               >
                 Download CV
               </a>
@@ -73,7 +75,7 @@ export const AboutSection = () => {
                 <div className="text-left">
                   <h4 className="font-semibold text-lg">Object-Oriented Programming (OOP)</h4>
                   <p className="text-muted-foreground">
-                   Writing clean, modular, and reusable code with classes, objects, inheritance, encapsulation, and polymorphism.
+                    Writing clean, modular, and reusable code with classes, objects, inheritance, encapsulation, and polymorphism.
                   </p>
                 </div>
               </div>

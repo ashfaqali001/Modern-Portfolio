@@ -80,10 +80,10 @@ export const ContactSection = () => {
                 <div>
                   <h4 className="font-medium"> Email</h4>
                   <a
-                    href="mailto:alishfaq877@gmail.com"
+                    href="mailto:aliultan877@gmail.com"
                     className="text-muted-foreground hover:text-primary transition-colors"
                   >
-                    alishfaq877@gmail.com
+                    aliultan877@gmail.com
                   </a>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export const ContactSection = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <input type="hidden" name="access_key" value="375e4914-4357-472f-9f32-fd61ba2d0628" />
+                <input type="hidden" name="access_key" value="1825157d-06e3-4c72-a91f-ca889d703248"/>
                 <label
                   htmlFor="name"
                   className="block text-sm font-medium mb-2"
