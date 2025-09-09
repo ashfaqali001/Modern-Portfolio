@@ -30,7 +30,7 @@ export const AboutSection = () => {
               </a>
 
               <a
-                href="/Resume_ATS.pdf"
+                href="/Resume.pdf"
                 download="my-cv.pdf"
                 className="cosmic-button"
               >
