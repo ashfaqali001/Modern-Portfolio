@@ -13,18 +13,68 @@ import { useState } from "react";
 export const ContactSection = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
     const form = e.target;
-    const formData = new FormData(form);
+    const formDataObj = new FormData(form);
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: formData,
+        body: formDataObj,
       });
 
       const data = await response.json();
@@ -35,6 +85,7 @@ export const ContactSection = () => {
           description: "Thank you for your message. I'll get back to you soon.",
         });
         form.reset(); // Clear the form fields on success
+        setFormData({ name: "", email: "", message: "" }); // Reset form state
       } else {
         toast({
           title: "Something went wrong! 😔",
@@ -101,16 +152,34 @@ export const ContactSection = () => {
             </div>
 
             <div className="pt-8">
-              <h4 className="font-medium mb-4"> Connect With Me</h4>
+              <h4 className="font-medium mb-4 text-center"> Connect With Me</h4>
               <div className="flex space-x-4 justify-center">
-                <a href="https://www.linkedin.com/in/alishfaq/" target="_blank" rel="noopener noreferrer">
-                  <Linkedin />
+                <a 
+                  href="https://www.linkedin.com/in/alishfaq/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Visit LinkedIn profile"
+                  className="text-foreground/80 hover:text-primary transition-colors"
+                >
+                  <Linkedin size={24} />
                 </a>
-                <a href="https://x.com/alishfaq007?t=PWFJqm3dSCs23UYZhB7Zvg&s=09" target="_blank" rel="noopener noreferrer">
-                  <Twitter />
+                <a 
+                  href="https://x.com/alishfaq007?t=PWFJqm3dSCs23UYZhB7Zvg&s=09" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Visit Twitter profile"
+                  className="text-foreground/80 hover:text-primary transition-colors"
+                >
+                  <Twitter size={24} />
                 </a>
-                <a href="https://www.instagram.com/alishfaq001?igsh=MnNwaG9ndDZlbTV4" target="_blank" rel="noopener noreferrer">
-                  <Instagram />
+                <a 
+                  href="https://www.instagram.com/alishfaq001?igsh=MnNwaG9ndDZlbTV4" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label="Visit Instagram profile"
+                  className="text-foreground/80 hover:text-primary transition-colors"
+                >
+                  <Instagram size={24} />
                 </a>
               </div>
             </div>
@@ -132,10 +201,18 @@ export const ContactSection = () => {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  className={cn(
+                    "w-full px-4 py-3 rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-primary",
+                    errors.name ? "border-red-500" : "border-input"
+                  )}
                   placeholder="Name"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                )}
               </div>
 
               <div>
@@ -149,10 +226,18 @@ export const ContactSection = () => {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                  className={cn(
+                    "w-full px-4 py-3 rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-primary",
+                    errors.email ? "border-red-500" : "border-input"
+                  )}
                   placeholder="Email"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
               </div>
 
               <div>
@@ -165,10 +250,18 @@ export const ContactSection = () => {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                  className={cn(
+                    "w-full px-4 py-3 rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none",
+                    errors.message ? "border-red-500" : "border-input"
+                  )}
                   placeholder="Hello, I'd like to talk about..."
                 />
+                {errors.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                )}
               </div>
 
               <button

@@ -23,7 +23,7 @@ export const AboutSection = () => {
               With a solid foundation in Data Structures & Algorithms (DSA), I focus on writing efficient, optimized code while solving complex problems. Always eager to learn, I love exploring new technologies to build scalable digital solutions.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-start sm:justify-center">
               <a href="#contact" className="cosmic-button">
                 {" "}
                 Get In Touch
